@@ -1,5 +1,6 @@
 package controlador;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,13 +11,12 @@ import modelo.Receta;
 import modeloDAO.RecetaDAO;
 @WebServlet(name = "ControladorReceta", urlPatterns = {"/ControladorReceta"})
 public class ControladorReceta extends HttpServlet {
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pagina="";
+        String pagina=".";
         String paginaListarReceta = "Receta/Receta_List.jsp";
         String paginaEditarReceta = "Receta/Receta_Delete.jsp";
-        String paginaAgregarReceta = "Receta/Receta_Add.jsp";
+        String paginaAgregarReceta = "Receta_Add.jsp";
         
         RecetaDAO dao = new RecetaDAO();
         Receta d;
@@ -32,17 +32,18 @@ public class ControladorReceta extends HttpServlet {
         }    
             
         if(action.equalsIgnoreCase("Agregar Receta")){        
-            String nom = request.getParameter("nombre");            
-            Integer idCat =  Integer.parseInt(request.getParameter("idCategoria"));            
-            Integer idMed =  Integer.parseInt(request.getParameter("idMedida"));                        
-            double  idPrecio  =  Double.parseDouble(request.getParameter("precio"));                                    
+            String nombre = request.getParameter("nombre");            
+            Integer idServicio =  Integer.parseInt(request.getParameter("idServicio"));            
+            Integer idPreferencia =  Integer.parseInt(request.getParameter("idPreferencia"));                        
+            Integer idTipoComida =  Integer.parseInt(request.getParameter("idTipoComida"));
+            String Link = request.getParameter("Link");
+            Double Total = Double.parseDouble(request.getParameter("Total"));
     
-            d = new Receta(0, nom, idCat, idMed, idPrecio);  
+            d = new Receta(0, nombre, idServicio, idPreferencia, idTipoComida, Link, Total);  
             dao.agregar(d);
             pagina=paginaListarReceta;
         } 
         
-
         if(action.equalsIgnoreCase("BorrarReceta")){
             String cod = request.getParameter("codigo");         
             dao.eliminar(Integer.parseInt(cod)); 
@@ -56,26 +57,28 @@ public class ControladorReceta extends HttpServlet {
          } 
         
         if(action.equalsIgnoreCase("Actualizar Receta")){
-            String cod = request.getParameter("codigo");
-            String nom = request.getParameter("nombre"); 
-            Integer idCat =  Integer.parseInt(request.getParameter("idCategoria"));            
-            Integer idMed =  Integer.parseInt(request.getParameter("idMedida"));                        
-            double  idPrecio  =  Double.parseDouble(request.getParameter("precio"));                                    
-            
+            String nombre = request.getParameter("nombre");            
+            Integer idServicio =  Integer.parseInt(request.getParameter("idServicio"));            
+            Integer idPreferencia =  Integer.parseInt(request.getParameter("idPreferencia"));                        
+            Integer idTipoComida =  Integer.parseInt(request.getParameter("idTipoComida"));
+            String Link = request.getParameter("Link");
+            Double Total = Double.parseDouble(request.getParameter("Total"));                                 
+            /*
             Integer codi;
             System.out.println(cod);  
             System.out.println(nom);  
             codi = Integer.parseInt(cod);
             System.out.println(codi);  
-            
-            d=new Receta(codi, nom, idCat, idMed, idPrecio);              
+            */
+            d = new Receta(0, nombre, idServicio, idPreferencia, idTipoComida, Link, Total);
             dao.editar(d);
             pagina=paginaListarReceta;
         }
-
         RequestDispatcher rd= request.getRequestDispatcher(pagina);
         rd.forward(request, response);   
-    }
+    
+        }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

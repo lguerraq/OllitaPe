@@ -8,6 +8,16 @@ public class Receta {
     private String LinkReceta;
     private double Monto;
 
+    public Receta(int idReceta, String Nombre, int idServicio, int idPreferencia, int idTipoComida, String LinkReceta, double Monto) {
+        this.idReceta = idReceta;
+        this.Nombre = Nombre;
+        this.idServicio = idServicio;
+        this.idPreferencia = idPreferencia;
+        this.idTipoComida = idTipoComida;
+        this.LinkReceta = LinkReceta;
+        this.Monto = Monto;
+    }
+
     public Receta() {
     }
 
